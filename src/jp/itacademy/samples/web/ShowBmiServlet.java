@@ -1,4 +1,4 @@
-package jp.itacademy.smples.web;
+package jp.itacademy.samples.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//BMI＝体重（kg）÷（身長（m）×身長（m）)
 
-
-@WebServlet("/showBloody")
-public class ShowBloodyServlet extends HttpServlet {
+@WebServlet("/showbmi")
+public class ShowBmiServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest req,HttpServletResponse res)
 	throws ServletException, IOException {
@@ -23,28 +23,23 @@ public class ShowBloodyServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		out.println("<!DOCTYPE html>");
 		out.println("<meta charset=\"utf-8\">");
-		out.println("<title>result</title>");
+		out.println("<title>show Bmi</title>");
+        
+        double sincho = Double.parseDouble(req.getParameter("sincho"));
+        double taiju = Double.parseDouble(req.getParameter("taiju"));
 		
-		String bloodtype = req.getParameter("bloodtype");
+		double bmi = taiju/((sincho/100)*(sincho/100));
 		
-		switch(bloodtype) {
-		case"a":
-			out.print("<P>大吉</P>");
-			break;
-		case"b":
-			out.print("<P>吉</P>");
-			break;
-		case"o":
-			out.print("<P>中吉</P>");
-			break;
-		case"ab":
-			out.print("<P>末吉</P>");
-			break;
-		}
+		
+		out.println("<P>あなたのBMIは" + bmi + "です。</P>");
+
 	}
+
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 	throws ServletException, IOException {
 		doGet(req, res);
 	}
+	
+
 }

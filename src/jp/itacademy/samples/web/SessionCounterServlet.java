@@ -1,4 +1,4 @@
-package jp.itacademy.smples.web;
+package jp.itacademy.samples.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,28 +10,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/memberOnly")
-public class MemberOnlyServlet extends HttpServlet {
+@WebServlet("/SessionCounter")
+public class SessionCounterServlet extends HttpServlet {
+
+	private static final String COUNTER_KEY = "SESSION_COUNTER";
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
+
+		HttpSession session = req.getSession();
+		Integer count = (Integer) session.getAttribute(COUNTER_KEY);
+		if (count == null) {
+			count = 1;
+		} else {
+			count += 1;
+		}
+		session.setAttribute(COUNTER_KEY, count);
 
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 		out.println("<!DOCTYPE html>");
 		out.println("<meta charset=\"utf-8\">");
-
-		HttpSession sess = req.getSession(false);
-		if (sess == null) {
-			out.println("<p>ログインしてください</p>");
-			return;
-		}
-
-		String account = (String) sess.getAttribute("account");
-		if (sess.getAttribute("account") == null) {
-			out.println("<p>ログインしてください</p>");
-			return;
-		}
-		out.println("<p>ようこそ" + account + "さん</p>");
+		out.println("<p>訪問回数: " + count + " 回</p>");
 	}
 }

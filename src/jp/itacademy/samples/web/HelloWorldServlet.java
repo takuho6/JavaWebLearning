@@ -1,4 +1,4 @@
-package jp.itacademy.smples.web;
+package jp.itacademy.samples.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
